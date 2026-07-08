@@ -159,6 +159,50 @@ body {
   text-decoration: underline;
 }
 
+.docs-page.docs-dark {
+  background: #0b0b0b;
+  border-radius: 0.75rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.docs-page.docs-dark section {
+  background: #111111;
+  border-color: #2a2a2a;
+}
+
+.docs-page.docs-dark h2 {
+  color: #f5f5f5;
+}
+
+.docs-page.docs-dark .prose-doc {
+  background: #171717;
+  border-color: #2f2f2f;
+}
+
+.docs-page.docs-dark .prose-doc h1,
+.docs-page.docs-dark .prose-doc h2,
+.docs-page.docs-dark .prose-doc h3,
+.docs-page.docs-dark .prose-doc strong {
+  color: #f3f3f3;
+}
+
+.docs-page.docs-dark .prose-doc p,
+.docs-page.docs-dark .prose-doc li,
+.docs-page.docs-dark .prose-doc th,
+.docs-page.docs-dark .prose-doc td {
+  color: #dddddd;
+  border-color: #353535;
+}
+
+.docs-page.docs-dark .prose-doc th {
+  background: #1f1f1f;
+}
+
+.docs-page.docs-dark .prose-doc a {
+  color: #7ee8dc;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

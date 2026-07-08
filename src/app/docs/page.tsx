@@ -2,8 +2,7 @@ import fs from "fs";
 import path from "path";
 import Link from "next/link";
 import type { Metadata } from "next";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { DocsContent } from "@/components/DocsContent";
 
 export const metadata: Metadata = {
   title: "Docs | Consensus Algorithms Explorer",
@@ -43,29 +42,10 @@ export default function DocsPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl space-y-8 px-4 py-8 md:px-8">
-        <section className="rounded-lg border border-line bg-card p-5 md:p-6">
-          <h2 className="mb-4 text-xl font-semibold text-ink">
-            Presentation Study Notes
-          </h2>
-          <article className="prose-doc rounded-lg border border-line bg-card-muted p-4">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {presentationNotes}
-            </ReactMarkdown>
-          </article>
-        </section>
-
-        <section className="rounded-lg border border-line bg-card p-5 md:p-6">
-          <h2 className="mb-4 text-xl font-semibold text-ink">
-            Algorithm Deep Analysis
-          </h2>
-          <article className="prose-doc rounded-lg border border-line bg-card-muted p-4">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {deepAnalysis}
-            </ReactMarkdown>
-          </article>
-        </section>
-      </main>
+      <DocsContent
+        presentationNotes={presentationNotes}
+        deepAnalysis={deepAnalysis}
+      />
     </div>
   );
 }
