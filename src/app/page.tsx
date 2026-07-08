@@ -22,13 +22,8 @@ function ExplorerContent() {
                 Blockchain &amp; Distributed Systems
               </p>
               <h1 className="mt-2 text-2xl font-bold leading-tight md:text-3xl">
-                Consensus Algorithms in Blockchain - A Comparative Explorer
+                Consensus Algorithms in Blockchain
               </h1>
-              <p className="mt-3 text-base leading-relaxed text-white/90">
-                Pick a consensus protocol from the list. Every section below
-                updates together: overview, trilemma, blockchain mapping, smart
-                contract languages, layer classification, and compatibility.
-              </p>
             </div>
             <Link
               href="/docs"
