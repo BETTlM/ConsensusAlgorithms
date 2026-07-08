@@ -9,24 +9,33 @@ import { BlockchainMappingPanel } from "@/components/BlockchainMappingPanel";
 import { SmartContractPanel } from "@/components/SmartContractPanel";
 import { LayerPanel } from "@/components/LayerPanel";
 import { CompatibilityMatrix } from "@/components/CompatibilityMatrix";
+import Link from "next/link";
 
 function ExplorerContent() {
   return (
     <div className="min-h-screen bg-page">
       <header className="bg-header text-white">
         <div className="mx-auto max-w-7xl px-4 py-8 md:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sm font-medium text-white/80">
-              Blockchain &amp; Distributed Systems
-            </p>
-            <h1 className="mt-2 text-2xl font-bold leading-tight md:text-3xl">
-              Consensus Algorithms in Blockchain - A Comparative Explorer
-            </h1>
-            <p className="mt-3 text-base leading-relaxed text-white/90">
-              Pick a consensus protocol from the list. Every section below
-              updates together: overview, trilemma, blockchain mapping, smart
-              contract languages, layer classification, and compatibility.
-            </p>
+          <div className="flex flex-wrap items-start justify-between gap-6">
+            <div className="max-w-2xl">
+              <p className="text-sm font-medium text-white/80">
+                Blockchain &amp; Distributed Systems
+              </p>
+              <h1 className="mt-2 text-2xl font-bold leading-tight md:text-3xl">
+                Consensus Algorithms in Blockchain - A Comparative Explorer
+              </h1>
+              <p className="mt-3 text-base leading-relaxed text-white/90">
+                Pick a consensus protocol from the list. Every section below
+                updates together: overview, trilemma, blockchain mapping, smart
+                contract languages, layer classification, and compatibility.
+              </p>
+            </div>
+            <Link
+              href="/docs"
+              className="inline-flex shrink-0 items-center rounded-lg bg-white/15 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/25"
+            >
+              Docs
+            </Link>
           </div>
           <div className="mt-6 md:hidden">
             <AlgorithmSelector />
