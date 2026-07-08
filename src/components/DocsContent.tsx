@@ -8,9 +8,14 @@ import remarkGfm from "remark-gfm";
 interface DocsContentProps {
   presentationNotes: string;
   deepAnalysis: string;
+  uiGuide: string;
 }
 
-export function DocsContent({ presentationNotes, deepAnalysis }: DocsContentProps) {
+export function DocsContent({
+  presentationNotes,
+  deepAnalysis,
+  uiGuide,
+}: DocsContentProps) {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
@@ -65,6 +70,13 @@ export function DocsContent({ presentationNotes, deepAnalysis }: DocsContentProp
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {deepAnalysis}
             </ReactMarkdown>
+          </article>
+        </section>
+
+        <section className="rounded-lg border border-line bg-card p-5 md:p-6">
+          <h2 className="mb-4 text-xl font-semibold text-ink">UI Guide</h2>
+          <article className="prose-doc rounded-lg border border-line bg-card-muted p-4">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{uiGuide}</ReactMarkdown>
           </article>
         </section>
       </main>
