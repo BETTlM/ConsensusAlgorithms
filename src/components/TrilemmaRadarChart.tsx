@@ -7,51 +7,28 @@ import {
   Radar,
   RadarChart,
   ResponsiveContainer,
-  Legend,
   Tooltip,
 } from "recharts";
-import { consensusAlgorithms } from "@/data/consensus";
 import { useSelection } from "@/context/SelectionContext";
 import { Panel } from "@/components/ui/Panel";
 
-const COMPARE_COLORS = ["#2a9d8f", "#e07a5f", "#3d405b"];
-
-function buildRadarData(
-  algorithmIds: string[]
-): Record<string, string | number>[] {
+function buildRadarData(score: {
+  scalability: number;
+  security: number;
+  decentralization: number;
+}): Record<string, string | number>[] {
   const axes = [
     { key: "scalability", label: "Scalability" },
     { key: "security", label: "Security" },
     { key: "decentralization", label: "Decentralisation" },
   ] as const;
 
-  return axes.map(({ key, label }) => {
-    const row: Record<string, string | number> = { axis: label };
-    algorithmIds.forEach((id) => {
-      const algo = consensusAlgorithms.find((a) => a.id === id);
-      if (algo) row[id] = algo.trilemma[key];
-    });
-    return row;
-  });
+  return axes.map(({ key, label }) => ({ axis: label, score: score[key] }));
 }
 
 export function TrilemmaRadarChart() {
-  const {
-    selectedAlgorithm,
-    compareMode,
-    setCompareMode,
-    compareIds,
-    toggleCompareId,
-    selectedAlgorithmId,
-  } = useSelection();
-
-  const displayIds = compareMode
-    ? compareIds.length > 0
-      ? compareIds
-      : [selectedAlgorithmId]
-    : [selectedAlgorithmId];
-
-  const radarData = buildRadarData(displayIds);
+  const { selectedAlgorithm } = useSelection();
+  const radarData = buildRadarData(selectedAlgorithm.trilemma);
 
   return (
     <Panel
@@ -59,17 +36,6 @@ export function TrilemmaRadarChart() {
       sectionNumber={2}
       title="Blockchain Trilemma Analysis"
       subtitle="Scalability, security, and decentralisation rated 1–10"
-      action={
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-body">
-          <input
-            type="checkbox"
-            checked={compareMode}
-            onChange={(e) => setCompareMode(e.target.checked)}
-            className="h-4 w-4 rounded border-line-strong accent-accent"
-          />
-          Compare up to 3
-        </label>
-      }
     >
       <div key={selectedAlgorithm.id} className="animate-fade-in space-y-6">
         <div className="rounded-lg border border-line bg-card-muted p-5 text-sm leading-relaxed text-body">
@@ -83,33 +49,6 @@ export function TrilemmaRadarChart() {
             participation). Scores here are comparative estimates, not live benchmarks.
           </p>
         </div>
-
-        {compareMode && (
-          <div className="flex flex-wrap items-center gap-2">
-            {consensusAlgorithms.map((algo) => {
-              const active = compareIds.includes(algo.id);
-              const disabled = !active && compareIds.length >= 3;
-              return (
-                <button
-                  key={algo.id}
-                  type="button"
-                  disabled={disabled}
-                  aria-pressed={active}
-                  onClick={() => toggleCompareId(algo.id)}
-                  className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                    active
-                      ? "bg-accent text-white"
-                      : disabled
-                        ? "cursor-not-allowed bg-card-muted text-muted"
-                        : "border border-line bg-card text-body hover:border-accent"
-                  }`}
-                >
-                  {algo.shortName}
-                </button>
-              );
-            })}
-          </div>
-        )}
 
         <div className="h-80 w-full rounded-lg border border-line bg-card p-2" role="img" aria-label="Trilemma radar chart">
           <ResponsiveContainer width="100%" height="100%">
@@ -133,23 +72,14 @@ export function TrilemmaRadarChart() {
                   color: "#1a1a1a",
                 }}
               />
-              {displayIds.map((id, i) => {
-                const algo = consensusAlgorithms.find((a) => a.id === id);
-                return (
-                  <Radar
-                    key={id}
-                    name={algo?.shortName ?? id}
-                    dataKey={id}
-                    stroke={COMPARE_COLORS[i % COMPARE_COLORS.length]}
-                    fill={COMPARE_COLORS[i % COMPARE_COLORS.length]}
-                    fillOpacity={compareMode ? 0.15 : 0.25}
-                    strokeWidth={2}
-                  />
-                );
-              })}
-              {compareMode && displayIds.length > 1 && (
-                <Legend wrapperStyle={{ fontSize: "13px", color: "#3a3a3a" }} />
-              )}
+              <Radar
+                name={selectedAlgorithm.shortName}
+                dataKey="score"
+                stroke="#2a9d8f"
+                fill="#2a9d8f"
+                fillOpacity={0.25}
+                strokeWidth={2}
+              />
             </RadarChart>
           </ResponsiveContainer>
         </div>

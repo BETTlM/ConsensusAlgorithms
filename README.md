@@ -16,16 +16,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Documentation
-
-- **In-app reference:** [http://localhost:3000/docs](http://localhost:3000/docs)
-- **Source file:** [docs/CONSENSUS_ALGORITHMS.md](docs/CONSENSUS_ALGORITHMS.md)
-
 ## Features
 
 1. **Algorithm overview**: mechanism, step-by-step flow, strengths, limitations, security considerations
 2. **Trilemma analysis**: radar chart with scalability (TPS, block time), security (51%, Sybil), decentralisation scores
-3. **Blockchain mapping**: real networks with L1/L2 filter
+3. **Blockchain mapping**: real networks and cryptocurrencies using each algorithm
 4. **Smart contract languages**: tied to each network and consensus design
 5. **Layer classification**: L1 vs L2 with definitions
 6. **Compatibility matrix**: heatmap of protocol-level consensus compatibility
@@ -41,7 +36,7 @@ npm start
 
 ## Stack
 
-Next.js · TypeScript · Tailwind CSS · Recharts · react-markdown
+Next.js · TypeScript · Tailwind CSS · Recharts
 
 ## Algorithms covered
 

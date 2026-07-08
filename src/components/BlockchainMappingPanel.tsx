@@ -1,12 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useSelection } from "@/context/SelectionContext";
 import { Panel } from "@/components/ui/Panel";
 import { Badge } from "@/components/ui/Badge";
-import type { Layer } from "@/data/types";
-
-type LayerFilter = "all" | Layer;
 
 export function BlockchainMappingPanel() {
   const {
@@ -14,11 +10,7 @@ export function BlockchainMappingPanel() {
     setHighlightedBlockchainId,
     highlightedBlockchainId,
   } = useSelection();
-  const [layerFilter, setLayerFilter] = useState<LayerFilter>("all");
-
-  const filtered = selectedAlgorithm.blockchains.filter(
-    (chain) => layerFilter === "all" || chain.layer === layerFilter
-  );
+  const filtered = selectedAlgorithm.blockchains;
 
   return (
     <Panel
@@ -26,29 +18,6 @@ export function BlockchainMappingPanel() {
       sectionNumber={3}
       title="Real-World Blockchain Mapping"
       subtitle="Networks and cryptocurrencies using this consensus"
-      action={
-        <div
-          className="flex gap-1 rounded-lg border border-line bg-card-muted p-1"
-          role="group"
-          aria-label="Filter by layer"
-        >
-          {(["all", "L1", "L2"] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              aria-pressed={layerFilter === f}
-              onClick={() => setLayerFilter(f)}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                layerFilter === f
-                  ? "bg-card text-accent-dark shadow-sm"
-                  : "text-muted hover:text-body"
-              }`}
-            >
-              {f === "all" ? "All" : f}
-            </button>
-          ))}
-        </div>
-      }
     >
       <div
         key={selectedAlgorithm.id}
@@ -87,11 +56,6 @@ export function BlockchainMappingPanel() {
             </button>
           );
         })}
-        {filtered.length === 0 && (
-          <p className="col-span-full text-sm text-muted">
-            No networks match this filter.
-          </p>
-        )}
       </div>
       <p className="mt-4 text-sm text-muted">
         Click a card to highlight it in the compatibility matrix below.

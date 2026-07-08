@@ -21,10 +21,6 @@ interface SelectionContextValue {
   selectedAlgorithmId: string;
   selectedAlgorithm: ConsensusAlgorithm;
   setSelectedAlgorithmId: (id: string) => void;
-  compareMode: boolean;
-  setCompareMode: (enabled: boolean) => void;
-  compareIds: string[];
-  toggleCompareId: (id: string) => void;
   highlightedBlockchainId: string | null;
   setHighlightedBlockchainId: (id: string | null) => void;
   allBlockchains: FlatBlockchain[];
@@ -58,8 +54,6 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
   );
   const selectedAlgorithmId = manualAlgorithmId ?? hashAlgorithmId;
 
-  const [compareMode, setCompareModeState] = useState(false);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
   const [highlightedBlockchainId, setHighlightedBlockchainId] = useState<
     string | null
   >(null);
@@ -70,34 +64,9 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
       setManualAlgorithmId(id);
       window.history.replaceState(null, "", `#${id}`);
       setHighlightedBlockchainId(null);
-      if (compareMode) {
-        setCompareIds((prev) =>
-          prev.includes(id) ? prev : [id, ...prev].slice(0, 3)
-        );
-      }
     },
-    [compareMode]
+    []
   );
-
-  const setCompareMode = useCallback(
-    (enabled: boolean) => {
-      setCompareModeState(enabled);
-      if (enabled) {
-        setCompareIds([selectedAlgorithmId]);
-      } else {
-        setCompareIds([]);
-      }
-    },
-    [selectedAlgorithmId]
-  );
-
-  const toggleCompareId = useCallback((id: string) => {
-    setCompareIds((prev) => {
-      if (prev.includes(id)) return prev.filter((x) => x !== id);
-      if (prev.length >= 3) return prev;
-      return [...prev, id];
-    });
-  }, []);
 
   const selectedAlgorithm = useMemo(() => {
     return getAlgorithmById(selectedAlgorithmId) ?? consensusAlgorithms[0];
@@ -110,10 +79,6 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
       selectedAlgorithmId,
       selectedAlgorithm,
       setSelectedAlgorithmId,
-      compareMode,
-      setCompareMode,
-      compareIds,
-      toggleCompareId,
       highlightedBlockchainId,
       setHighlightedBlockchainId,
       allBlockchains,
@@ -122,10 +87,6 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
       selectedAlgorithmId,
       selectedAlgorithm,
       setSelectedAlgorithmId,
-      compareMode,
-      setCompareMode,
-      compareIds,
-      toggleCompareId,
       highlightedBlockchainId,
       allBlockchains,
     ]
