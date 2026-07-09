@@ -279,7 +279,7 @@ export const consensusAlgorithms: ConsensusAlgorithm[] = [
     blockchains: [
       {
         id: "polygon-poa",
-        name: "Polygon PoA (legacy)",
+        name: "Polygon PoA",
         symbol: "MATIC",
         layer: "L1",
         layerNote:

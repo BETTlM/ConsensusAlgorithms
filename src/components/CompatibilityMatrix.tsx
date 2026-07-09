@@ -5,6 +5,9 @@ import { useSelection } from "@/context/SelectionContext";
 import { areCompatible, getCompatibilityLabel } from "@/lib/compatibility";
 import { Panel } from "@/components/ui/Panel";
 
+const cellBase =
+  "flex min-h-10 w-full items-center justify-center border-b border-r border-line";
+
 export function CompatibilityMatrix() {
   const {
     allBlockchains,
@@ -56,13 +59,16 @@ export function CompatibilityMatrix() {
       </p>
 
       <div
-        className="grid w-full gap-px overflow-hidden rounded-lg border border-line bg-line"
+        className="grid w-full overflow-hidden rounded-lg border border-line bg-card"
         role="grid"
         aria-label="Blockchain consensus compatibility matrix"
         style={{ gridTemplateColumns: gridTemplate }}
       >
-        {/* Header row */}
-        <div className="bg-card-muted p-1 sm:p-2" role="columnheader" aria-hidden="true" />
+        <div
+          className={`${cellBase} bg-card-muted`}
+          role="columnheader"
+          aria-hidden="true"
+        />
 
         {allBlockchains.map((col) => {
           const highlighted =
@@ -71,9 +77,8 @@ export function CompatibilityMatrix() {
             <button
               key={`col-${col.id}`}
               type="button"
-              title={`${col.name} (${col.consensusName})`}
-              aria-label={`Column: ${col.name}`}
-              className={`flex aspect-square w-full cursor-pointer items-center justify-center p-0.5 text-center transition-colors ${
+              aria-label={`Column: ${col.name} (${col.consensusName})`}
+              className={`${cellBase} cursor-pointer p-1 text-center transition-colors ${
                 highlighted
                   ? "bg-accent-soft text-accent-dark"
                   : "bg-card-muted text-muted hover:bg-card hover:text-body"
@@ -91,7 +96,6 @@ export function CompatibilityMatrix() {
           );
         })}
 
-        {/* Data rows */}
         {allBlockchains.map((row) => {
           const rowHighlighted =
             highlightedBlockchainId === row.id || selectedChainIds.has(row.id);
@@ -99,9 +103,8 @@ export function CompatibilityMatrix() {
             <div key={`row-${row.id}`} className="contents" role="row">
               <button
                 type="button"
-                title={`${row.name} (${row.consensusName})`}
-                aria-label={`Row: ${row.name}`}
-                className={`flex cursor-pointer items-center px-1 py-1 text-left transition-colors sm:px-2 ${
+                aria-label={`Row: ${row.name} (${row.consensusName})`}
+                className={`${cellBase} cursor-pointer justify-start px-2 py-1.5 text-left transition-colors ${
                   rowHighlighted
                     ? "bg-accent-soft text-accent-dark"
                     : "bg-card text-body hover:bg-card-muted"
@@ -126,14 +129,14 @@ export function CompatibilityMatrix() {
                     key={`cell-${row.id}-${col.id}`}
                     role="gridcell"
                     tabIndex={0}
-                    className={`flex aspect-square w-full items-center justify-center transition-colors ${
+                    aria-label={label}
+                    className={`${cellBase} transition-colors ${
                       isDiag
                         ? "bg-card-muted"
                         : compatible
                           ? "bg-ok-bg hover:brightness-95"
                           : "bg-no-bg hover:brightness-95"
                     }`}
-                    title={label}
                     onMouseEnter={(e) =>
                       handleTooltip(label, e.clientX, e.clientY)
                     }
@@ -141,9 +144,10 @@ export function CompatibilityMatrix() {
                       handleTooltip(label, e.clientX, e.clientY)
                     }
                     onMouseLeave={() => setTooltip(null)}
-                    onFocus={(e) =>
-                      handleTooltip(label, e.currentTarget.getBoundingClientRect().right, e.currentTarget.getBoundingClientRect().bottom)
-                    }
+                    onFocus={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      handleTooltip(label, rect.right, rect.bottom);
+                    }}
                     onBlur={() => setTooltip(null)}
                   >
                     <span className="sr-only">{label}</span>
